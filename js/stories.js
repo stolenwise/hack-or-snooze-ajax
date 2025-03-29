@@ -69,9 +69,9 @@ function putStoriesOnPage() {
 // Form submission for new story
 async function submitNewStory(evt) {
   evt.preventDefault();
-  
-  if (!storyList) {
-    console.error("storyList is not initialized yet!");
+
+  if (!currentUser) {
+    console.error("User is not logged in!");
     return;
   }
 
@@ -81,7 +81,6 @@ async function submitNewStory(evt) {
 
   const newStoryData = {title, author, url};
 
-  console.log("User submitted:", title, author, url);
   try {
     const story = await storyList.addStory(currentUser, newStoryData);
     const $story = generateStoryMarkup(story);
@@ -91,6 +90,7 @@ async function submitNewStory(evt) {
     console.error("Error submitting new story:", err);
   }
 }
+
 
 
 
