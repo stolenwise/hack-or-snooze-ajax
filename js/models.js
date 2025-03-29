@@ -48,23 +48,30 @@ class StoryList {
    */
 
   static async getStories() {
-    // Note presence of `static` keyword: this indicates that getStories is
-    //  **not** an instance method. Rather, it is a method that is called on the
-    //  class directly. Why doesn't it make sense for getStories to be an
-    //  instance method?
-
-    // query the /stories endpoint (no auth required)
     const response = await axios({
-      url: `${BASE_URL}/stories`,
+      url: `${BASE_URL}/stories`,  // Make sure the API URL is correct
       method: "GET",
     });
-
-    // turn plain old story objects from API into instances of Story class
-    const stories = response.data.stories.map(story => new Story(story));
-
-    // build an instance of our own class using the new array of stories
+  
+    console.log("API response:", response); // Check the response here
+  
+    // Ensure the response has stories and log the response
+    const stories = response.data.stories ? response.data.stories.map(story => new Story(story)) : [];
+  
+    if (stories.length === 0) {
+      console.error("No stories found.");
+    }
+  
     return new StoryList(stories);
   }
+  
+
+  //   // turn plain old story objects from API into instances of Story class
+  //   const stories = response.data.stories.map(story => new Story(story));
+  //   console.log(response.data);
+  //   // build an instance of our own class using the new array of stories
+  //   return new StoryList(stories);
+  // }
 
   /** Adds story data to API, makes a Story instance, adds it to story list.
    * - user - the current instance of User who will post the story

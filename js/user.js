@@ -1,7 +1,16 @@
 "use strict";
 
 // global to hold the User instance of the currently-logged-in user
-let currentUser;
+const currentUser = new User({
+  username: "testUser",
+  name: "Test User",
+  createdAt: "2021-01-01",
+  favorites: [],
+  ownStories: []
+}, "fakeToken");  // Replace "fakeToken" with a real token if available
+
+
+
 
 /******************************************************************************
  * User login/signup/login

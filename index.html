@@ -12,6 +12,17 @@
         </ul>
     </nav>
     <div>
+        <form id="login-form">
+            Username: <input type="text" id="login-username" required>
+            <br>
+            Password: <input type="password" id="login-password" required>
+            <br>
+            <button type="submit">Login</button>
+          </form>
+          
+    </div>
+    <br>
+    <div>
         <form id="submit-form">
             Title <input type="text" id="title" name="title" required> 
             <br>
@@ -24,7 +35,17 @@
         </form>
     </div>
     <ul id="all-stories-list"></ul>
+    
+    <!-- Load Axios first -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    
+    <!-- Load jQuery next -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Load models.js before stories.js, so that StoryList is defined -->
+    <script src="js/models.js"></script>
+
+    <!-- Load stories.js after models.js -->
     <script src="js/stories.js"></script>
 </body>
 </html>
