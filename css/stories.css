@@ -32,8 +32,10 @@
 
 .story-author {
   margin-left: 2em;
+  color: green !important; /* Adding !important to ensure it overrides other styles */
 }
 
 .story-user {
   display: block;
+  color: rgb(240, 220, 47) !important; /* Adding !important here as well */
 }

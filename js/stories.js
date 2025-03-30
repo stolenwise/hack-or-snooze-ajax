@@ -47,8 +47,8 @@ function generateStoryMarkup(story) {
           <span class="delete-button" data-story-id="${story.storyId}">🗑️</span>
         
         <small class="story-hostname">(${hostName})</small>
-        <small class="story-author">by ${story.author}</small>
-        <small class="story-user">posted by ${story.username}</small>
+        <small class="story-author" style="color: green">by ${story.author}</small>
+        <small class="story-user" style="color: rgb(228, 179, 63)">posted by ${story.username}</small>
       </li>
     `);
 }
