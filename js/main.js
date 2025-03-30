@@ -41,6 +41,19 @@ async function start() {
   if (currentUser) updateUIOnUserLogin();
 }
 
+// When a user logs in, show the submit form
+function updateUIOnUserLogin() {
+  console.debug("updateUIOnUserLogin");
+  $(".main-nav-links").show();
+  $navLogin.hide();
+  $navLogOut.show();
+  $navUserProfile.text(`${currentUser.username}`).show();
+  
+  // Show the new story form after login
+  $("#new-story-form").removeClass("hidden");
+}
+
+
 // Once the DOM is entirely loaded, begin the app
 
 console.warn("HEY STUDENT: This program sends many debug messages to" +

@@ -11,7 +11,6 @@ class Story {
   /** Make instance of Story from data object about story:
    *   - {title, author, url, username, storyId, createdAt}
    */
-
   constructor({ storyId, title, author, url, username, createdAt }) {
     this.storyId = storyId;
     this.title = title;
@@ -22,13 +21,11 @@ class Story {
   }
 
   /** Parses hostname out of URL and returns it. */
-
   getHostName() {
     // UNIMPLEMENTED: complete this function!
-    return "hostname.com";
+    return new URL(this.url).hostname; // This extracts the hostname from the URL
   }
 }
-
 
 /******************************************************************************
  * List of Story instances: used by UI to show story lists in DOM.
@@ -46,32 +43,23 @@ class StoryList {
    *  - makes a single StoryList instance out of that
    *  - returns the StoryList instance.
    */
-
   static async getStories() {
     const response = await axios({
-      url: `${BASE_URL}/stories`,  // Make sure the API URL is correct
+      url: `${BASE_URL}/stories`,  // Ensure the API URL is correct
       method: "GET",
     });
-  
+
     console.log("API response:", response); // Check the response here
-  
+
     // Ensure the response has stories and log the response
     const stories = response.data.stories ? response.data.stories.map(story => new Story(story)) : [];
-  
+
     if (stories.length === 0) {
       console.error("No stories found.");
     }
-  
+
     return new StoryList(stories);
   }
-  
-
-  //   // turn plain old story objects from API into instances of Story class
-  //   const stories = response.data.stories.map(story => new Story(story));
-  //   console.log(response.data);
-  //   // build an instance of our own class using the new array of stories
-  //   return new StoryList(stories);
-  // }
 
   /** Adds story data to API, makes a Story instance, adds it to story list.
    * - user - the current instance of User who will post the story
@@ -79,10 +67,7 @@ class StoryList {
    *
    * Returns the new Story instance
    */
-
   async addStory(user, newStory) {
-    // UNIMPLEMENTED: complete this function!
-
     const data = {
       token: user.loginToken,
       story: {
@@ -99,11 +84,30 @@ class StoryList {
       contentType: "application/json"
     });
 
-    return new Story(response.story);
+    console.log("API Response:", response); // Log the response from the server
 
+    return new Story(response.story);  // Create a new story instance from the response
   }
-}
 
+  async deleteStory(storyId) {
+    const data = { token: currentUser.loginToken };  // Use the logged-in user's token
+  
+    try {
+      const response = await axios({
+        url: `${BASE_URL}/stories/${storyId}`,
+        method: "DELETE",
+        data,
+        headers: {
+          Authorization: `Bearer ${currentUser.loginToken}`  // Or send token in header if required by the API
+        }
+      });
+      console.log("Story deleted:", response);
+    } catch (error) {
+      console.error("Error deleting story:", error);
+    }
+  }
+  
+}
 
 /******************************************************************************
  * User: a user in the system (only used to represent the current user)
@@ -114,7 +118,6 @@ class User {
    *   - {username, name, createdAt, favorites[], ownStories[]}
    *   - token
    */
-
   constructor({
                 username,
                 name,
@@ -135,34 +138,32 @@ class User {
     this.loginToken = token;
   }
 
-async addFavorite(story) {
+  async addFavorite(story) {
+    const url = `${BASE_URL}/users/${this.username}/favorites/${story.storyId}`;
+    const data = {token: this.loginToken};
 
-  const url = `${BASE_URL}/users/${this.username}/favorites/${story.storyId}`;
-  const data = {token: this.loginToken};
+    console.log(url, data)
 
-  console.log(url, data)
+    await axios.post(url, data);
+    this.favorites.push(story);
+  }
 
-  await axios.post(url, data);
-  this.favorites.push(story);
-}
+  async deleteFavorite(story) {
+    const url = `${BASE_URL}/users/${this.username}/favorites/${story.storyId}`;
+    const data = {token: this.loginToken};
 
-async deleteFavorite(story) {
-  const url = `${BASE_URL}/users/${this.username}/favorites/${story.storyId}`;
-  const data = {token: this.loginToken};
+    console.log(url, data)
 
-  console.log(url, data)
+    await axios.delete(url, data);
+    this.favorites = this.favorites.filter(s => s.storyId !== story.storyId);
+  }
 
-  await axios.delete(url, data);
-  this.favorites = this.favorites.filter(s => s.storyId !== story.storyId);
-
-}
   /** Register new user in API, make User instance & return it.
    *
    * - username: a new username
    * - password: a new password
    * - name: the user's full name
    */
-
   static async signup(username, password, name) {
     const response = await axios({
       url: `${BASE_URL}/signup`,
@@ -170,7 +171,7 @@ async deleteFavorite(story) {
       data: { user: { username, password, name } },
     });
 
-    let { user } = response.data
+    let { user } = response.data;
 
     return new User(
       {
@@ -185,20 +186,19 @@ async deleteFavorite(story) {
   }
 
   /** Login in user with API, make User instance & return it.
-
+   *
    * - username: an existing user's username
    * - password: an existing user's password
    */
-
   static async login(username, password) {
     const response = await axios({
       url: `${BASE_URL}/login`,
       method: "POST",
       data: { user: { username, password } },
     });
-  
+
     const { user, token } = response.data;  
-  
+
     return new User(
       {
         username: user.username,
@@ -214,7 +214,6 @@ async deleteFavorite(story) {
   /** When we already have credentials (token & username) for a user,
    *   we can log them in automatically. This function does that.
    */
-
   static async loginViaStoredCredentials(token, username) {
     try {
       const response = await axios({

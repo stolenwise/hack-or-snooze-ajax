@@ -9,6 +9,8 @@
     <link rel="stylesheet" href="css/user.css">
     <link rel="stylesheet" href="css/stories.css">
     <link rel="stylesheet" href="css/nav.css">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+
   </head>
   
   <body>
@@ -32,21 +34,22 @@
   <!-- area for stories (all stories, user stories, favorites) -->
   <section class="stories-container container">
   
-    <form class="hidden" id="new-story-form">
-      <div>
-        <label>Author</label>
-        <input id="author-input" placeholder="Author Name">
-      </div>
-      <div>
-        <label>Title</label>
-        <input id="title-input" placeholder="Story Title">
-      </div>
-      <div>
-        <label>Story URL</label>
-        <input id="story-url-input" placeholder="Story URL">
-      </div>
-      <button id="submit-form-button" type="submit">Submit</button>
-    </form>
+    <form class="hidden" id="new-story-form-1">
+        <div>
+          <label>Author</label>
+          <input id="author-input-1" placeholder="Author Name">
+        </div>
+        <div>
+          <label>Title</label>
+          <input id="title-input-1" placeholder="Story Title">
+        </div>
+        <div>
+          <label>Story URL</label>
+          <input id="story-url-input-1" placeholder="Story URL">
+        </div>
+        <button id="submit-form-button-1" type="submit">Submit</button>
+      </form>
+      
   
     <!-- loading message (removed by JS after stories loaded) -->
     <div id="stories-loading-msg">Loading&hellip;</div>
@@ -56,6 +59,23 @@
   
     <!-- List of favorite stories -->
     <ul id="favorites-list" class="hidden stories-list"></ul>
+  <!-- New Story Form (Make it visible when logged in) -->
+
+  <form id="new-story-form" class="account-form">
+    <div>
+      <label>Author</label>
+      <input id="author-input" placeholder="Author Name">
+    </div>
+    <div>
+      <label>Title</label>
+      <input id="title-input" placeholder="Story Title">
+    </div>
+    <div>
+      <label>Story URL</label>
+      <input id="story-url-input" placeholder="Story URL">
+    </div>
+    <button id="submit-form-button" type="submit">Submit</button>
+  </form>
   
   </section>
   

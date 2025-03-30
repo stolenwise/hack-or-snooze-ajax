@@ -7,12 +7,14 @@
 /** Show main list of all stories when click site name */
 const $navSubmit = $("#nav-submit");
 
+// Show submit form when the "Submit" link is clicked
 function navSubmitClick(evt) {
   console.debug("navSubmitClick", evt);
   hidePageComponents();      // hides other parts of UI
-  $submitForm.show();        // shows the submit story form
+  $("#new-story-form").removeClass("hidden");  // Make the submit form visible
 }
 $navSubmit.on("click", navSubmitClick);
+
 
 
 function navAllStories(evt) {
